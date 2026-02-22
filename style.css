@@ -1,0 +1,403 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol,
+ul {
+    list-style: none;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+
+
+
+/* --- RESET & BASIC SETUP --- */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #050505;
+    color: #33ff33;
+    font-family: "Courier New", Courier, monospace;
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* Starfield background */
+    background-image:
+        radial-gradient(white, rgba(255, 255, 255, .2) 2px, transparent 3px),
+        radial-gradient(white, rgba(255, 255, 255, .15) 1px, transparent 2px),
+        radial-gradient(white, rgba(255, 255, 255, .1) 2px, transparent 3px);
+    background-size: 550px 550px, 350px 350px, 250px 250px;
+    background-position: 0 0, 40px 60px, 130px 270px;
+}
+
+/* --- CRT SCREEN EFFECTS --- */
+.screen-container {
+    position: relative;
+    width: 100%;
+    max-width: 1024px;
+    height: 90vh;
+    border: 2px solid #444;
+    border-radius: 20px;
+    background: rgba(10, 20, 10, 0.9);
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.1), inset 0 0 50px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Scanlines */
+.scanlines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 0) 50%,
+            rgba(0, 0, 0, 0.2) 50%,
+            rgba(0, 0, 0, 0.2));
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Subtle flicker animation */
+@keyframes flicker {
+    0% {
+        opacity: 0.97;
+    }
+
+    5% {
+        opacity: 0.95;
+    }
+
+    10% {
+        opacity: 0.9;
+    }
+
+    15% {
+        opacity: 0.95;
+    }
+
+    20% {
+        opacity: 0.99;
+    }
+
+    50% {
+        opacity: 0.95;
+    }
+
+    80% {
+        opacity: 0.9;
+    }
+
+    100% {
+        opacity: 0.97;
+    }
+}
+
+.screen-content {
+    animation: flicker 0.15s infinite;
+    padding: 20px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+    text-shadow: 0 0 3px #33ff33;
+}
+
+/* --- MARQUEE --- */
+.marquee-container {
+    width: 100%;
+    background: #003300;
+    color: #ccffcc;
+    border-bottom: 2px double #33ff33;
+    padding: 5px 0;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.marquee-text {
+    text-transform: uppercase;
+}
+
+.marquee-text .lower {
+    text-transform: none;
+}
+
+
+/* --- HERO CONTENT --- */
+.hero {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+h1 {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
+    text-shadow: 4px 4px 0px #000000, 6px 6px 0px #333;
+    letter-spacing: -2px;
+}
+
+.g-blue {
+    color: #4285F4;
+}
+
+.g-red {
+    color: #EA4335;
+}
+
+.g-yellow {
+    color: #FBBC05;
+}
+
+.g-green {
+    color: #34A853;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+    color: #aaa;
+}
+
+/* --- BUTTON --- */
+.btn-retro {
+    background-color: #f2f2f2;
+    border: 2px solid #888;
+    border-top-color: #fff;
+    border-left-color: #fff;
+    border-right-color: #444;
+    border-bottom-color: #444;
+    color: #333;
+    padding: 15px 30px;
+    font-family: inherit;
+    font-size: 1.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #000;
+    transition: all 0.1s;
+    text-transform: capitalize;
+    outline: none;
+}
+
+.btn-retro:active {
+    border: 2px solid #666;
+    border-top-color: #444;
+    border-left-color: #444;
+    border-right-color: #fff;
+    border-bottom-color: #fff;
+    box-shadow: 1px 1px 0 #000;
+    transform: translate(3px, 3px);
+    background-color: #ddd;
+}
+
+.btn-retro:hover {
+    background-color: #fff;
+    color: #000;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.4), 4px 4px 0 #000;
+}
+
+/* --- TERMINAL --- */
+#terminal {
+    display: none;
+    width: 80%;
+    height: 300px;
+    background: #000;
+    border: 2px solid #33ff33;
+    padding: 20px;
+    overflow-y: auto;
+    text-align: left;
+    font-size: 1.1rem;
+    color: #33ff33;
+    font-family: monospace;
+    box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.2);
+}
+
+.cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.2rem;
+    background-color: #33ff33;
+    animation: blink 1s step-end infinite;
+    vertical-align: middle;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* --- ANIMATED ELEMENTS --- */
+.visuals {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* --- FOOTER --- */
+.footer {
+    font-size: 0.8rem;
+    color: #666;
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+    border-top: 1px dashed #333;
+    padding-top: 10px;
+}

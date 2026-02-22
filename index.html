@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm Feeling Grokky - Retro xAI Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Made by me, Tommi -->
+</head>
+
+<body>
+
+    <div class="screen-container">
+        <div class="scanlines"></div>
+
+        <div class="marquee-container">
+            <marquee scrollamount="10" scrolldelay="100" class="marquee-text">
+                *** <span class="lower">x</span>AI KNOWLEDGE AWAITS *** POWERED BY GROKIPEDIA.COM *** DON'T PANIC ***
+                ESTABLISHING UPLINK TO
+                STARSHIP ***
+            </marquee>
+        </div>
+
+        <div class="screen-content">
+            <div class="hero" id="hero-section">
+                <div class="visuals">🚀 🌌 👽</div>
+                <h1>
+                    <span class="g-blue">G</span><span class="g-red">r</span><span class="g-yellow">o</span><span
+                        class="g-blue">k</span><span class="g-green">k</span><span class="g-red">y</span>
+                </h1>
+                <p class="subtitle">Search the Universe, One Neuron at a Time.</p>
+
+                <button id="grokButton" class="btn-retro">I'm Feeling Grokky</button>
+            </div>
+
+            <div id="terminal">
+                <div id="terminal-content"></div>
+                <span class="cursor"></span>
+            </div>
+
+            <div class="footer">
+                © 1999-202X | Personal fun demo by @tommithetechie<br>
+                Not affiliated with xAI or Google. Redirects to public Grokipedia pages only.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const GROK_SLUGS = [
+            "Grok", "xAI", "Elon_Musk", "SpaceX", "Tesla", "Neuralink", "Starship",
+            "Mars", "Falcon_Heavy", "Apollo_11", "Artificial_intelligence",
+            "Machine_learning", "Rocket", "Orbit", "NASA", "Internet",
+            "Silicon_Valley", "Computer", "The_Hitchhiker's_Guide_to_the_Galaxy",
+            "Supercomputer", "Quantum_computing", "Singularity", "Robot",
+            "Cyberpunk", "Retro_futurism", "Unix", "Linux", "OpenAI",
+            "DeepMind", "Turing_test", "Voyager_1"
+        ];
+
+        const LOADING_MESSAGES = [
+            "Initializing neural net...",
+            "Connecting to Starlink satellite #420...",
+            "Bypassing mainframe firewall...",
+            "Downloading internet...",
+            "Applying retro filters...",
+            "Calculating trajectory to Mars...",
+            "Querying Grok knowledge base...",
+            "Optimizing humor parameters...",
+            "Avoiding hallucinations...",
+            "Engaging warp drive..."
+        ];
+
+        // --- DOM ELEMENTS ---
+        const btn = document.getElementById('grokButton');
+        const heroSection = document.getElementById('hero-section');
+        const terminal = document.getElementById('terminal');
+        const terminalContent = document.getElementById('terminal-content');
+
+        // --- AUDIO SYSTEM (Web Audio API) ---
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        let audioCtx;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioContext();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function playTone(freq, type, duration, vol = 0.1) {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function playBeep() {
+            playTone(1200 + Math.random() * 500, 'square', 0.05, 0.05);
+        }
+
+        function playClick() {
+            playTone(200, 'sawtooth', 0.1, 0.2);
+        }
+
+        function playModemSequence() {
+            if (!audioCtx) return;
+            const now = audioCtx.currentTime;
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = 'square';
+            osc.frequency.setValueAtTime(1000, now);
+            osc.frequency.linearRampToValueAtTime(2500, now + 1.5);
+
+            const bufferSize = audioCtx.sampleRate * 2;
+            const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const data = buffer.getChannelData(0);
+            for (let i = 0; i < bufferSize; i++) {
+                data[i] = Math.random() * 2 - 1;
+            }
+            const noise = audioCtx.createBufferSource();
+            noise.buffer = buffer;
+            const noiseGain = audioCtx.createGain();
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            noise.connect(noiseGain);
+            noiseGain.connect(audioCtx.destination);
+
+            gain.gain.setValueAtTime(0.05, now);
+            gain.gain.setValueAtTime(0, now + 1.5);
+
+            noiseGain.gain.setValueAtTime(0, now);
+            noiseGain.gain.setValueAtTime(0.05, now + 0.5);
+            noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 2.0);
+
+            osc.start(now);
+            osc.stop(now + 1.5);
+            noise.start(now);
+            noise.stop(now + 2.0);
+        }
+
+        // --- TERMINAL LOGIC ---
+        function typeLine(text, doneCallback) {
+            const p = document.createElement('div');
+            terminalContent.appendChild(p);
+            let i = 0;
+            const interval = setInterval(() => {
+                p.textContent += text.charAt(i);
+                playBeep();
+                terminal.scrollTop = terminal.scrollHeight;
+                i++;
+                if (i >= text.length) {
+                    clearInterval(interval);
+                    if (doneCallback) doneCallback();
+                }
+            }, 30);
+        }
+
+        function runSequence() {
+            const slug = GROK_SLUGS[Math.floor(Math.random() * GROK_SLUGS.length)];
+            const targetUrl = `https://grokipedia.com/page/${slug}`;
+
+            heroSection.style.display = 'none';
+            terminal.style.display = 'block';
+
+            playModemSequence();
+
+            let delay = 0;
+
+            setTimeout(() => typeLine("> SYSTEM BOOT...", null), delay += 500);
+            setTimeout(() => typeLine("> " + LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)], null), delay += 1000);
+            setTimeout(() => typeLine("> " + LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)], null), delay += 1200);
+
+            setTimeout(() => typeLine(`> TARGET IDENTIFIED: [ ${slug.toUpperCase()} ]`, null), delay += 1200);
+
+            setTimeout(() => typeLine("> INITIATING HYPERLINK JUMP...", null), delay += 1000);
+            setTimeout(() => typeLine("3...", null), delay += 800);
+            setTimeout(() => typeLine("2...", null), delay += 800);
+            setTimeout(() => typeLine("1...", null), delay += 800);
+
+            setTimeout(() => {
+                typeLine("> LIFTOFF! 🚀 Entering Grokipedia hyperspace...", () => {
+                    setTimeout(() => {
+                        // Attempt fullscreen for immersion (user must approve)
+                        if (document.documentElement.requestFullscreen) {
+                            document.documentElement.requestFullscreen().catch(() => { });
+                        }
+                        // Redirect to the real page
+                        window.location.href = targetUrl;
+                    }, 800);
+                });
+            }, delay += 800);
+        }
+
+        function resetInterface() {
+            terminal.style.display = 'none';
+            terminalContent.innerHTML = '';
+            heroSection.style.display = 'flex';
+            playClick();
+        }
+
+        // --- MY EVENT LISTENERS ---
+        btn.addEventListener('click', () => {
+            initAudio();
+            playClick();
+            runSequence();
+        });
+
+        // hover sound
+        btn.addEventListener('mouseenter', () => {
+            if (audioCtx) playTone(800, 'sine', 0.05, 0.02);
+        });
+
+    </script>
+
+</body>
+
+</html>
